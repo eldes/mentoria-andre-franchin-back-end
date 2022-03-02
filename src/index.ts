@@ -21,6 +21,9 @@ app.use(cors({
 	origin: ['http://localhost:3000']
 }))
 
+// Router de Itens:
+app.use('/api', itensRouter)
+
 // Resposta padrão para quaisquer outras requisições:
 app.use((req, res) => {
 	res.status(404)
