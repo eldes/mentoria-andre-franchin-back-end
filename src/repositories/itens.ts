@@ -1,14 +1,17 @@
 import Item from '../models/item'
+import database from './database'
 
 type LoadItensCallback = (itens: Item[]) => void
 type LoadItemCallback = (item: Item | undefined) => void
 
 const itensRepository = {
 	loadAll: (callback: LoadItensCallback) => {
-		// TODO: Operação para conseguir os dados do banco de dados.
-		const items = itensMock
 
-		callback(items)
+		const queryExecutada = (err: Error | null, itens: Item[]) => {
+			callback(itens)
+		}
+
+		database.all('SELECT * FROM itens', queryExecutada)		
 	},
 
 	load: (id: number, callback: LoadItemCallback) => {
@@ -16,7 +19,7 @@ const itensRepository = {
 		const item = itensMock.find(item => item.id === id)
 
 		callback(item)
-	}
+	},
 }
 
 export default itensRepository
@@ -25,11 +28,11 @@ const itensMock: Item[] = [
 	{
 		id: 1,
 		nome: 'Suco de laranja',
-		description: 'Suco natural em caixinha'
+		descricao: 'Suco natural em caixinha'
 	},
 	{
 		id: 2,
 		nome: 'Suco de maçã',
-		description: 'Suco natural em caixinha'
+		descricao: 'Suco natural em caixinha'
 	},
 ]
