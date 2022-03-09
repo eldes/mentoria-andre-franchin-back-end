@@ -1,11 +1,13 @@
 import express from 'express'
 import Item from '../models/item'
+import itensRepository from '../repositories/itens'
 
 const itensRouter = express.Router()
 
 itensRouter.get('/itens', (req, res) => {
-	const itens: Item[] = itensMock
-	res.json(itens)
+	itensRepository.loadAll((itens) => {
+		res.json(itens)
+	})
 })
 
 itensRouter.get('/itens/:id', (req, res) => {
@@ -14,26 +16,14 @@ itensRouter.get('/itens/:id', (req, res) => {
 	if (isNaN(id)) {
 		res.status(404).send()
 	} else {
-		const item = itensMock.find((item) => { return item.id === id })
-		if (item === undefined) {
-			res.status(404).send()
-		} else {
-			res.json(item)
-		}
+		itensRepository.load(id, (item) => {
+			if (item) {
+				res.json(item)
+			} else {
+				res.status(404).send()
+			}
+		})
 	}
 })
-
-const itensMock: Item[] = [
-	{
-		id: 1,
-		nome: 'Suco de laranja',
-		descricao: 'Suco natural em caixinha'
-	},
-	{
-		id: 2,
-		nome: 'Suco de maçã',
-		descricao: 'Suco natural em caixinha'
-	},
-]
 
 export default itensRouter
