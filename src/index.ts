@@ -1,5 +1,5 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 import itensRouter from './routers/itens'
 
 // Porta do servidor
@@ -10,6 +10,10 @@ const HOSTNAME = process.env.HOSTNAME || 'http://localhost'
 
 // App Express
 const app = express()
+
+// Suporte ao JSON
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Endpoint raiz
 app.get('/', (req, res) => {
