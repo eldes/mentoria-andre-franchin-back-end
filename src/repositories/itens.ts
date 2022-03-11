@@ -15,24 +15,13 @@ const itensRepository = {
 	},
 
 	load: (id: number, callback: LoadItemCallback) => {
-		// TODO: Operação para conseguir os dados do banco de dados.
-		const item = itensMock.find(item => item.id === id)
 
-		callback(item)
+		const queryExecutada = (err: Error | null, item: Item) => {
+			callback(item)
+		}
+
+		database.get(`SELECT * FROM itens WHERE id = ${id}`, queryExecutada)
 	},
 }
 
 export default itensRepository
-
-const itensMock: Item[] = [
-	{
-		id: 1,
-		nome: 'Suco de laranja',
-		descricao: 'Suco natural em caixinha'
-	},
-	{
-		id: 2,
-		nome: 'Suco de maçã',
-		descricao: 'Suco natural em caixinha'
-	},
-]
