@@ -26,4 +26,38 @@ itensRouter.get('/itens/:id', (req, res) => {
 	}
 })
 
+itensRouter.post('/itens', (req, res) => {
+	const item: Item = req.body
+
+	itensRepository.insert(item, () => {
+		res.status(201).send()
+	})
+})
+
+itensRouter.put('/itens/:id', (req, res) => {
+	const id: number = Number.parseInt(req.params.id)
+
+	if (isNaN(id)) {
+		res.status(404).send()
+	} else {
+		const item: Item = req.body
+
+		itensRepository.update(id, item, () => {
+			res.status(200).send()
+		})
+	}
+})
+
+itensRouter.delete('/itens/:id', (req, res) => {
+	const id: number = Number.parseInt(req.params.id)
+
+	if (isNaN(id)) {
+		res.status(404).send()
+	} else {
+		itensRepository.delete(id, () => {
+			res.status(200).send()
+		})
+	}
+})
+
 export default itensRouter
